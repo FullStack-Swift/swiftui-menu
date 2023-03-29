@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "swiftui-button-styles",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-button-styles",
+      "state" : {
+        "branch" : "main",
+        "revision" : "388b32ec43e7f81916583fdf7a2645f7848bf0ab"
+      }
+    },
+    {
+      "identity" : "swiftui-viewmodifier",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/FullStack-Swift/swiftui-viewModifier",
+      "state" : {
+        "branch" : "main",
+        "revision" : "15bfeab4363ad68d394ca83be6fbe235e1a4d2e4"
+      }
+    }
+  ],
+  "version" : 2
+}
