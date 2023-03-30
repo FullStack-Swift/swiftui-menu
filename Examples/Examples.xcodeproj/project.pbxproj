@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		871BF27529D67A65007B9664 /* swiftui-list-extension in Frameworks */ = {isa = PBXBuildFile; productRef = 871BF27429D67A65007B9664 /* swiftui-list-extension */; };
+		87F772CF29D54DAE00401D45 /* PathBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = 87F772CE29D54DAE00401D45 /* PathBuilder */; };
+		87F772D229D54EC500401D45 /* SwiftUIAdditions in Frameworks */ = {isa = PBXBuildFile; productRef = 87F772D129D54EC500401D45 /* SwiftUIAdditions */; };
 		901AC16B29D4829000763181 /* ExamplesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901AC16A29D4829000763181 /* ExamplesApp.swift */; };
 		901AC16D29D4829000763181 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901AC16C29D4829000763181 /* ContentView.swift */; };
 		901AC16F29D4829200763181 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901AC16E29D4829200763181 /* Assets.xcassets */; };
@@ -56,9 +59,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87F772D229D54EC500401D45 /* SwiftUIAdditions in Frameworks */,
 				901AC1A129D4A16900763181 /* SwiftUIViewModifier in Frameworks */,
+				871BF27529D67A65007B9664 /* swiftui-list-extension in Frameworks */,
 				90A6B33929D4C96100495636 /* SwiftUIMenu in Frameworks */,
 				901AC19E29D4959C00763181 /* ButtonStyles in Frameworks */,
+				87F772CF29D54DAE00401D45 /* PathBuilder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +171,9 @@
 				901AC19D29D4959C00763181 /* ButtonStyles */,
 				901AC1A029D4A16900763181 /* SwiftUIViewModifier */,
 				90A6B33829D4C96100495636 /* SwiftUIMenu */,
+				87F772CE29D54DAE00401D45 /* PathBuilder */,
+				87F772D129D54EC500401D45 /* SwiftUIAdditions */,
+				871BF27429D67A65007B9664 /* swiftui-list-extension */,
 			);
 			productName = Examples;
 			productReference = 901AC16729D4829000763181 /* Examples.app */;
@@ -241,6 +250,9 @@
 			packageReferences = (
 				901AC19C29D4959C00763181 /* XCRemoteSwiftPackageReference "swiftui-button-styles" */,
 				901AC19F29D4A16900763181 /* XCRemoteSwiftPackageReference "swiftui-viewModifier" */,
+				87F772CD29D54DAE00401D45 /* XCRemoteSwiftPackageReference "PathBuilder" */,
+				87F772D029D54EC500401D45 /* XCRemoteSwiftPackageReference "swiftui-additions" */,
+				871BF27329D67A65007B9664 /* XCRemoteSwiftPackageReference "swiftui-list-extension" */,
 			);
 			productRefGroup = 901AC16829D4829000763181 /* Products */;
 			projectDirPath = "";
@@ -631,6 +643,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		871BF27329D67A65007B9664 /* XCRemoteSwiftPackageReference "swiftui-list-extension" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-list-extension";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		87F772CD29D54DAE00401D45 /* XCRemoteSwiftPackageReference "PathBuilder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mkj-is/PathBuilder.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.0.1;
+			};
+		};
+		87F772D029D54EC500401D45 /* XCRemoteSwiftPackageReference "swiftui-additions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FullStack-Swift/swiftui-additions";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		901AC19C29D4959C00763181 /* XCRemoteSwiftPackageReference "swiftui-button-styles" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/FullStack-Swift/swiftui-button-styles";
@@ -650,6 +686,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		871BF27429D67A65007B9664 /* swiftui-list-extension */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 871BF27329D67A65007B9664 /* XCRemoteSwiftPackageReference "swiftui-list-extension" */;
+			productName = "swiftui-list-extension";
+		};
+		87F772CE29D54DAE00401D45 /* PathBuilder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87F772CD29D54DAE00401D45 /* XCRemoteSwiftPackageReference "PathBuilder" */;
+			productName = PathBuilder;
+		};
+		87F772D129D54EC500401D45 /* SwiftUIAdditions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87F772D029D54EC500401D45 /* XCRemoteSwiftPackageReference "swiftui-additions" */;
+			productName = SwiftUIAdditions;
+		};
 		901AC19D29D4959C00763181 /* ButtonStyles */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 901AC19C29D4959C00763181 /* XCRemoteSwiftPackageReference "swiftui-button-styles" */;

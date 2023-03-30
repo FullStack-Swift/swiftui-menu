@@ -26,45 +26,29 @@ public struct MenuModifier<ContentModifier>: ViewModifier where ContentModifier:
   }
   
   public func body(content: Content) -> some View {
-    if #available(iOS 14.0, *) {
-      ZStack {
-        content
-        switch menuType {
-          case .left:
-            LeftMenuView(isPresented: $isPresented, content: contentModifier())
-          case .right:
-            RightMenuView(isPresented: $isPresented, content: contentModifier())
-          case .top:
-            TopMenuView(isPresented: $isPresented, content: contentModifier())
-          case .bottom:
-            BottomMenuView(isPresented: $isPresented, content: contentModifier())
-          case .center:
-            CenterMenuView(isPresented: $isPresented, content: contentModifier())
-        }
-      }
-      .onChange(of: isPresented) { newValue in
-        if newValue == false {
-          UIApplication.shared.endEditing()
-        }
-      }
-    } else {
-      // Fallback on earlier versions
-      ZStack {
-        content
-        switch menuType {
-          case .left:
-            LeftMenuView(isPresented: $isPresented, content: contentModifier())
-          case .right:
-            RightMenuView(isPresented: $isPresented, content: contentModifier())
-          case .top:
-            TopMenuView(isPresented: $isPresented, content: contentModifier())
-          case .bottom:
-            BottomMenuView(isPresented: $isPresented, content: contentModifier())
-          case .center:
-            CenterMenuView(isPresented: $isPresented, content: contentModifier())
-        }
+    ZStack {
+      content
+      switch menuType {
+        case .left:
+          LeftMenuView(isPresented: $isPresented, content: contentModifier())
+        case .right:
+          RightMenuView(isPresented: $isPresented, content: contentModifier())
+        case .top:
+          TopMenuView(isPresented: $isPresented, content: contentModifier())
+        case .bottom:
+          BottomMenuView(isPresented: $isPresented, content: contentModifier())
+        case .center:
+          CenterMenuView(isPresented: $isPresented, content: contentModifier())
       }
     }
+    .valueChanged(value: isPresented, onChange: { newValue in
+      if newValue == false {
+#if os(iOS)
+        UIApplication.shared.endEditing()
+#endif
+      }
+    })
+    .edgesIgnoringSafeArea([.leading, .trailing, .top])
   }
   
 }
@@ -332,12 +316,28 @@ extension View {
   }
   
   func transitionScale() -> some View {
-    transition(.asymmetric(insertion: .scale.animation(.spring()), removal: .scale.animation(.spring())))
+    transition(.asymmetric(insertion: .scale.animation(.spring(response: 0.2, dampingFraction: 0.3, blendDuration: 0.1).speed(1).delay(1/3)), removal: .scale))
   }
 }
 
+#if os(iOS)
 extension UIApplication {
   func endEditing() {
     sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+  }
+}
+#endif
+
+extension View {
+
+  @ViewBuilder
+  func valueChanged<T: Equatable>(value: T, onChange: @escaping (T) -> Void) -> some View {
+    if #available(iOS 14.0, tvOS 14.0, macOS 11.0, watchOS 7.0, *) {
+      self.onChange(of: value, perform: onChange)
+    } else {
+      self.onReceive(Just(value)) { value in
+        onChange(value)
+      }
+    }
   }
 }

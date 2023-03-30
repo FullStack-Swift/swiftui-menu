@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftUIMenu
 import ButtonStyles
 import SwiftUIViewModifier
+import swiftui_list_extension
 
 struct ContentView: View {
   
@@ -109,23 +110,7 @@ struct ContentView: View {
         isPresented: $isPresentedLeft,
         menuType: .left,
         contentModifier: {
-          List {
-            ForEach(1..<1000) { item in
-              HStack {
-                Text(String(item) + UUID().uuidString)
-                Spacer()
-              }
-              .frame(maxWidth: .infinity)
-              .clipShape(Rectangle())
-              .onTapGesture {
-                withAnimation {
-                  isPresentedLeft = false
-                }
-              }
-            }
-          }
-          .listStyle(.plain)
-          .frame(width: 300)
+          leftMenuView
         }
       )
     )
@@ -134,23 +119,7 @@ struct ContentView: View {
         isPresented: $isPresentedRight,
         menuType: .right,
         contentModifier: {
-          List {
-            ForEach(1..<1000) { item in
-              HStack {
-                Text(String(item) + UUID().uuidString)
-                Spacer()
-              }
-              .frame(maxWidth: .infinity)
-              .clipShape(Rectangle())
-              .onTapGesture {
-                withAnimation {
-                  isPresentedRight = false
-                }
-              }
-            }
-          }
-          .listStyle(.plain)
-          .frame(width: 300)
+          rightMenuView
         }
       )
     )
@@ -159,12 +128,7 @@ struct ContentView: View {
         isPresented: $isPresentedTop,
         menuType: .top,
         contentModifier: {
-          VStack {
-            DatePicker("", selection: .constant(Date()))
-              .datePickerStyle(.graphical)
-              .padding(.zero)
-          }
-          .background(Color(.systemBackground))
+          topMenuView
         }
       )
     )
@@ -173,157 +137,224 @@ struct ContentView: View {
         isPresented: $isPresentedBottom,
         menuType: .bottom,
         contentModifier: {
-          VStack(spacing: 0) {
-            TopBottomBarView(
-              background: LinearGradient(
-                colors: [.red, .orange, .green],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-              )
-            )
-            Group {
-              HStack {
-                Image(systemName: "sun.max.fill")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 24, height: 24, alignment: .center)
-                  .foregroundColor(Color.orange)
-                TextField("Email", text: $text)
-                  .foregroundColor(.orange)
-                  .font(.body)
-                  .fontWeight(.thin)
-              }
-              .frame(height: 44)
-              Divider()
-              HStack {
-                Image(systemName: "star.slash.fill")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 24, height: 24, alignment: .center)
-                  .foregroundColor(Color.orange)
-                TextField("Password", text: $text)
-                  .foregroundColor(.orange)
-                  .font(.body)
-                  .fontWeight(.thin)
-              }
-              .frame(height: 44)
-              Divider()
-              HStack {
-                Button {
-                  withAnimation {
-                  }
-                } label: {
-                  Text("OK")
-                    .font(.callout)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                }
-                .buttonStyle(BackgroundButtonStyle{
-                  Color.orange
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                })
-                
-                Button {
-                  withAnimation {
-                  }
-                } label: {
-                  Text("Cancel")
-                    .font(.callout)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                }
-                .buttonStyle(BackgroundButtonStyle{
-                  Color.orange
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                })
-              }
-              .frame(height: 44)
-              .padding(.vertical, 24)
-            }
-            .padding(.vertical, 4)
-            .padding(.horizontal, 8)
-            .background(Color(.systemBackground))
-          }
+          bottomMenuView
         }
       )
     )
-    .modifier(MenuModifier(isPresented: $isPresentedCenter, menuType: .center, contentModifier: {
-      VStack(spacing: 0) {
-        TopBottomBarView(
-          background: LinearGradient(
-            colors: [.red, .orange, .green],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-          )
-        )
-        Group {
-          HStack {
-            Image(systemName: "sun.max.fill")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: 24, height: 24, alignment: .center)
-              .foregroundColor(Color.orange)
-            TextField("Email", text: $text)
-              .foregroundColor(.orange)
-              .font(.body)
-              .fontWeight(.thin)
-          }
-          .frame(height: 44)
-          Divider()
-          HStack {
-            Image(systemName: "star.slash.fill")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: 24, height: 24, alignment: .center)
-              .foregroundColor(Color.orange)
-            TextField("Password", text: $text)
-              .foregroundColor(.orange)
-              .font(.body)
-              .fontWeight(.thin)
-          }
-          .frame(height: 44)
-          Divider()
-          HStack {
-            Button {
-              withAnimation {
-                isPresentedCenter = false
-              }
-            } label: {
-              Text("OK")
-                .font(.callout)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-            }
-            .buttonStyle(BackgroundButtonStyle{
-              Color.orange
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-            })
-            
-            Button {
-              withAnimation {
-                isPresentedCenter = false
-              }
-            } label: {
-              Text("Cancel")
-                .font(.callout)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-            }
-            .buttonStyle(BackgroundButtonStyle{
-              Color.orange
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-            })
-          }
-          .frame(height: 44)
-          .padding(.vertical, 24)
+    .modifier(
+      MenuModifier(
+        isPresented: $isPresentedCenter,
+        menuType: .center,
+        contentModifier: {
+          centerMenuView
         }
-        .padding(.vertical, 4)
-        .padding(.horizontal, 8)
-        .background(Color(.systemBackground))
-      }
-      .frame(width: 333, height: 333, alignment: .center)
-    }))
+      )
+    )
   }
+}
+
+extension ContentView {
+
+  var leftMenuView: some View {
+    List {
+      ForEach(1..<1000) { item in
+        HStack {
+          Text(String(item) + UUID().uuidString)
+          Spacer()
+        }
+        //        .hideListRowSeperator()
+        .frame(maxWidth: .infinity)
+        .clipShape(Rectangle())
+        .onTapGesture {
+          withAnimation {
+            isPresentedLeft = false
+          }
+        }
+      }
+    }
+    .listStyle(.plain)
+    .frame(width: 300)
+  }
+
+  var rightMenuView: some View {
+    List {
+      ForEach(1..<1000) { item in
+        HStack {
+          Text(String(item) + UUID().uuidString)
+          Spacer()
+        }
+        //        .hideListRowSeperator()
+        .frame(maxWidth: .infinity)
+        .clipShape(Rectangle())
+        .onTapGesture {
+          withAnimation {
+            isPresentedRight = false
+          }
+        }
+      }
+    }
+    .listStyle(.plain)
+    .frame(width: 300)
+  }
+
+  var topMenuView: some View {
+    DatePicker("", selection: .constant(Date()))
+      .datePickerStyle(.graphical)
+      .background(Color(.systemBackground))
+      .frame(maxHeight: 400)
+  }
+
+  var bottomMenuView: some View {
+    VStack(spacing: 0) {
+      TopBottomBarView(
+        background: LinearGradient(
+          colors: [.red, .orange, .green],
+          startPoint: .topLeading,
+          endPoint: .bottomTrailing
+        )
+      )
+      Group {
+        HStack {
+          Image(systemName: "sun.max.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 24, height: 24, alignment: .center)
+            .foregroundColor(Color.orange)
+          TextField("Email", text: $text)
+            .foregroundColor(.orange)
+            .font(.body)
+            .fontWeight(.thin)
+        }
+        .frame(height: 44)
+        Divider()
+        HStack {
+          Image(systemName: "star.slash.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 24, height: 24, alignment: .center)
+            .foregroundColor(Color.orange)
+          TextField("Password", text: $text)
+            .foregroundColor(.orange)
+            .font(.body)
+            .fontWeight(.thin)
+        }
+        .frame(height: 44)
+        Divider()
+        HStack {
+          Button {
+            withAnimation {
+            }
+          } label: {
+            Text("OK")
+              .font(.callout)
+              .fontWeight(.bold)
+              .foregroundColor(.white)
+          }
+          .buttonStyle(BackgroundButtonStyle{
+            Color.orange
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+          })
+
+          Button {
+            withAnimation {
+            }
+          } label: {
+            Text("Cancel")
+              .font(.callout)
+              .fontWeight(.bold)
+              .foregroundColor(.white)
+          }
+          .buttonStyle(BackgroundButtonStyle{
+            Color.orange
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+          })
+        }
+        .frame(height: 44)
+        .padding(.vertical, 24)
+      }
+      .padding(.vertical, 4)
+      .padding(.horizontal, 8)
+      .background(Color(.systemBackground))
+    }
+  }
+
+  var centerMenuView: some View {
+    VStack(spacing: 0) {
+      TopBottomBarView(
+        background: LinearGradient(
+          colors: [.red, .orange, .green],
+          startPoint: .topLeading,
+          endPoint: .bottomTrailing
+        )
+      )
+      Group {
+        HStack {
+          Image(systemName: "sun.max.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 24, height: 24, alignment: .center)
+            .foregroundColor(Color.orange)
+          TextField("Email", text: $text)
+            .foregroundColor(.orange)
+            .font(.body)
+            .fontWeight(.thin)
+        }
+        .frame(height: 44)
+        Divider()
+        HStack {
+          Image(systemName: "star.slash.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 24, height: 24, alignment: .center)
+            .foregroundColor(Color.orange)
+          TextField("Password", text: $text)
+            .foregroundColor(.orange)
+            .font(.body)
+            .fontWeight(.thin)
+        }
+        .frame(height: 44)
+        Divider()
+        HStack {
+          Button {
+            withAnimation {
+              isPresentedCenter = false
+            }
+          } label: {
+            Text("OK")
+              .font(.callout)
+              .fontWeight(.bold)
+              .foregroundColor(.white)
+          }
+          .buttonStyle(BackgroundButtonStyle{
+            Color.orange
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+          })
+
+          Button {
+            withAnimation {
+              isPresentedCenter = false
+            }
+          } label: {
+            Text("Cancel")
+              .font(.callout)
+              .fontWeight(.bold)
+              .foregroundColor(.white)
+          }
+          .buttonStyle(BackgroundButtonStyle{
+            Color.orange
+              .clipShape(RoundedRectangle(cornerRadius: 8))
+          })
+        }
+        .frame(height: 44)
+        .padding(.vertical, 24)
+      }
+      .padding(.vertical, 4)
+      .padding(.horizontal, 8)
+      .background(Color(.systemBackground))
+    }
+    .frame(width: 333, height: 333, alignment: .center)
+  }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
